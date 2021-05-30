@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: seafile-server-pod
+spec:
+  volumes:
+    - name: seafile-pv
+      persistentVolumeClaim:
+        claimName: seafile-pvc
+  containers:
+    - name: seafile-server-pod
+      image: zoosmand/seafile:v2
+      command: [
+        # "/opt/seafile/seafile-server-latest/seafile.sh start || true"
+        # "/opt/seafile/seafile-server-latest/seahub.sh start || true"
+      ]
+      ports:
+        - containerPort: 80
+          name: "http"
+        - containerPort: 443
+          name: "https"
+      volumeMounts:
+        - mountPath: "/opt"
+          name: seafile-pv
+      resources: 
+        limits:
+          memory: 1Gi
+          cpu: 1
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: seafile-server-pod
+  labels:
+    app: seafile-server-pod
+spec:
+  selector:
+    app: seafile-server-pod
+  type: NodePort
+  ports:
+    - protocol: TCP
+      name: "http"
+      port: 80
+      targetPort: 80
+      nodePort: 30200
+    - protocol: TCP
+      port: 443
+      name: "https"
+      targetPort: 443
+      nodePort: 30201
