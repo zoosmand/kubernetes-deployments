@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ruby-depl
+  labels:
+    app: ruby
+    v: 0.0.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ruby
+  strategy:
+    rollingUpdate:
+      maxSurge: 75%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ruby
+    spec:
+      containers:
+      - name: ruby
+        image: docker.io/ruby
+        ports:
+          - containerPort: 80
+        resources: 
+          limits:
+            memory: 512Mi
+            cpu: 1000m
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ruby-net
+  labels:
+    app: ruby
+spec:
+  selector:
+    app: ruby
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30010
+

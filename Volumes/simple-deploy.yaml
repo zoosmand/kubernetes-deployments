@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-depl
+  labels:
+    app: simple
+    v: v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simple
+  strategy:
+    rollingUpdate:
+      maxSurge: 75%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: simple
+    spec:
+      containers:
+      - name: nginx
+        image: docker.io/nginx:1.16
+        ports:
+          - containerPort: 80
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: 500m
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-net
+  labels:
+    app: simple
+spec:
+  selector:
+    app: simple
+  type: LoadBalancer
+  # type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30010

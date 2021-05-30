@@ -1,0 +1,92 @@
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: db-pv-volume
+#   labels:
+#     type: local
+# spec:
+#   storageClassName: manual
+#   capacity:
+#     storage: 10Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   hostPath:
+#     path: "/mnt/data"
+
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-depl
+  labels:
+    app: simple
+    v: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple
+  strategy:
+    rollingUpdate:
+      maxSurge: 75%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: simple
+    spec:
+      containers:
+      - name: nginx
+        image: docker.io/nginx:1.16
+        ports:
+          - containerPort: 80
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: 500m
+        volumeMounts:
+        - name: db-persistent-storage
+          mountPath: /mnt/data
+      volumes:
+      - name: db-persistent-storage
+        persistentVolumeClaim:
+          claimName: db-pv-claim
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-net
+  labels:
+    app: simple
+spec:
+  selector:
+    app: simple
+  type: LoadBalancer
+  # type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30010
