@@ -6,8 +6,10 @@ metadata:
 data:
   stubDomains: |
     {
-      “asart.local”: [“192.168.203.10”],
+      “asart.local”: [“10.16.10.14”],
+      “home.asart.local”: [“192.168.200.2”],
       “mira.asart.local”: [“192.168.203.10”]
     }
+  
   upstreamNameservers: |
-    [“8.8.8.8”, “8.8.4.4”]
+    [“192.168.203.10”, "192.168.200.2", "10.16.10.14", "8.8.8.8", "8.8.4.4"]
