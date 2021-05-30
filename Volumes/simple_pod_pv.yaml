@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: seafile-server-pod
+spec:
+  volumes:
+    - name: seafile-pv
+      persistentVolumeClaim:
+        claimName: seafile-pvc
+  containers:
+    - name: seafile-server-pod
+      image: zoosmand/ubuntu_ap
+      ports:
+        - containerPort: 80
+          name: "http"
+      volumeMounts:
+        - mountPath: "/mnt"
+          name: seafile-pv
+      resources: 
+        limits:
+          memory: 128Mi
+          cpu: 500m

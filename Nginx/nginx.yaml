@@ -26,6 +26,7 @@ spec:
         image: docker.io/nginx:1.16
         ports:
           - containerPort: 80
+            name: "http"
         resources: 
           limits:
             memory: 128Mi

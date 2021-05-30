@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     tzdata \
     iproute2 \
     dnsutils \
+    vim \
     \
     && apt-get clean
 
