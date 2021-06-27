@@ -1,0 +1,36 @@
+[
+    2021 - 06 - 27 T03: 17: 26,
+    633
+][INFO][logstash.outputs.elasticsearch][main][
+    37921704030 db314fe97fae51a3b04128cbec2a1a5faa6ee6b09f5bb8f80d3e4
+] Retrying failed action {: status => 403,: action => [
+        "index",
+        {: _id => nil,
+            : _index => "squid-2021.05.25",
+            : routing => nil
+        },
+        {
+            "request_method" => "CONNECT",
+            "user_auth" => "-",
+            "cache_result" => "TCP_DENIED:HIER_NONE",
+            "bytes" => 4139,
+            "user_agent" => "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) ReaderServices/21.1.20145 Chrome/80.0.0.0 Safari/537.36",
+            "host" => "73ace2ae2190",
+            "status_code" => 407,
+            "@timestamp" => 2021 - 05 - 25 T05: 07: 47.000 Z,
+            "@version" => "1",
+            "path" => "/usr/share/logstash/pipeline/input/access.log",
+            "user_address" => "10.98.27.191",
+            "http_proto" => "HTTP/1.1",
+            "tags" => [
+                "squid"
+            ],
+            "param_1" => "-",
+            "url" => "p13n.adobe.io:443",
+            "param_2" => "-"
+        }
+    ],: error => {
+        "type" => "security_exception",
+        "reason" => "action [indices:admin/auto_create] is unauthorized for user [logstash] with roles [logstash_beats] on indices [squid-2021.05.25], this action is granted by the index privileges [auto_configure,create_index,manage,all]"
+    }
+}

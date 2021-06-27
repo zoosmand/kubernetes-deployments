@@ -1,0 +1,129 @@
+{
+    "monitoring": {
+        "metrics": {
+            "beat": {
+                "cgroup": {
+                    "cpuacct": {
+                        "total": {
+                            "ns": 20185671
+                        }
+                    },
+                    "memory": {
+                        "mem": {
+                            "usage": {
+                                "bytes": 4096
+                            }
+                        }
+                    }
+                },
+                "cpu": {
+                    "system": {
+                        "ticks": 4940,
+                        "time": {
+                            "ms": 9
+                        }
+                    },
+                    "total": {
+                        "ticks": 12980,
+                        "time": {
+                            "ms": 18
+                        },
+                        "value": 12980
+                    },
+                    "user": {
+                        "ticks": 8040,
+                        "time": {
+                            "ms": 9
+                        }
+                    }
+                },
+                "handles": {
+                    "limit": {
+                        "hard": 1048576,
+                        "soft": 1024
+                    },
+                    "open": 12
+                },
+                "info": {
+                    "ephemeral_id": "336121db-484c-4a61-87a5-bd4e4189c426",
+                    "uptime": {
+                        "ms": 18870039
+                    }
+                },
+                "memstats": {
+                    "gc_next": 21938896,
+                    "memory_alloc": 11232600,
+                    "memory_total": 1800661704,
+                    "rss": 140693504
+                },
+                "runtime": {
+                    "goroutines": 37
+                }
+            },
+            "filebeat": {
+                "events": {
+                    "added": 1,
+                    "done": 1
+                },
+                "harvester": {
+                    "open_files": 1,
+                    "running": 1
+                }
+            },
+            "libbeat": {
+                "config": {
+                    "module": {
+                        "running": 1
+                    }
+                },
+                "output": {
+                    "events": {
+                        "acked": 1,
+                        "active": 0,
+                        "batches": 1,
+                        "total": 1
+                    },
+                    "read": {
+                        "bytes": 12
+                    },
+                    "write": {
+                        "bytes": 1152
+                    }
+                },
+                "pipeline": {
+                    "clients": 2,
+                    "events": {
+                        "active": 0,
+                        "published": 1,
+                        "total": 1
+                    },
+                    "queue": {
+                        "acked": 1
+                    }
+                }
+            },
+            "registrar": {
+                "states": {
+                    "current": 4,
+                    "update": 1
+                },
+                "writes": {
+                    "success": 1,
+                    "total": 1
+                }
+            },
+            "system": {
+                "load": {
+                    "1": 1.85,
+                    "15": 1.43,
+                    "5": 1.48,
+                    "norm": {
+                        "1": 0.0925,
+                        "15": 0.0715,
+                        "5": 0.074
+                    }
+                }
+            }
+        }
+    }
+}

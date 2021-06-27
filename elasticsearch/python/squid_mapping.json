@@ -1,0 +1,43 @@
+{
+    "index_patterns": ["squid-*"],
+    "mappings": {
+        "doc": {
+            "properties": {
+                "content_type": { "type": "keyword" },
+                "user_auth": { "type": "keyword" },
+                "cache_result": { "type": "keyword" },
+                "user_address": { "type": "ip" },
+                "user_agent": { "type": "keyword" },
+                "path": { "type": "keyword" },
+                "request_method": { "type": "keyword" },
+                "http_proto": { "type": "keyword" },
+                "url": { "type": "keyword" },
+                "param_1": { "type": "keyword" },
+                "param_2": { "type": "keyword" }
+            }
+        }
+    }
+},
+
+
+{
+    "message": {
+        "url" => "armmf.adobe.com:443",
+        "user_agent" => "ARM WinINet Downloader",
+        "param_1" => "-",
+        "cache_result" => "TCP_DENIED:HIER_NONE",
+        "request_method" => "CONNECT",
+        "status_code" => 407,
+        "bytes" => 4062,
+        "http_proto" => "HTTP/1.0",
+        "host" => "73ace2ae2190",
+        "path" => "/usr/share/logstash/pipeline/input/access.log",
+        "tags" => [
+            [0],
+            "squid"
+        ],
+        "user_address" => "10.98.27.191",
+        "user_auth" => "-",
+        "param_2" => "-"
+    }
+}

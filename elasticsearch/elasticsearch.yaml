@@ -1,0 +1,69 @@
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: elasticsearch-depl
+#   labels:
+#     app: elasticsearch
+#     version: 7.13.2
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: elasticsearch
+#   strategy:
+#     rollingUpdate:
+#       maxSurge: 75%
+#       maxUnavailable: 25%
+#     type: RollingUpdate
+#   template:
+#     metadata:
+#       labels:
+#         app: elasticsearch
+#     spec:
+#       containers:
+#         - name: elasticsearch
+#           image: docker.io/elasticsearch:7.13.2
+#           ports:
+#             - containerPort: 9200
+#             - containerPort: 9300
+#           resources:
+#             limits:
+#               memory: 2Gi
+#               cpu: 2
+
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: elasticsearch-net
+#   labels:
+#     app: elasticsearch
+# spec:
+#   selector:
+#     app: elasticsearch
+#   type: LoadBalancer
+#   ports:
+#     - protocol: TCP
+#       name: elasticsearch-9200
+#       port: 9200
+#       targetPort: 9200
+#       nodePort: 30092
+#     - protocol: TCP
+#       name: elasticsearch-9300
+#       port: 9300
+#       targetPort: 9300
+#       nodePort: 30093
+
+---
+apiVersion: elasticsearch.k8s.elastic.co/v1alpha
+kind: Elasticsearch
+metadata:
+  name: quickstart
+spec:
+  version: 7.13.2
+  nodeSets:
+  - name: default
+    count: 1
+    config:
+      node.store.allow_mmap: false
