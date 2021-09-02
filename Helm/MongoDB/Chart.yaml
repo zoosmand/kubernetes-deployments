@@ -1,0 +1,23 @@
+annotations:
+  category: Database
+apiVersion: v2
+appVersion: 4.4.8
+description: NoSQL document-oriented database that stores JSON-like documents with dynamic schemas, simplifying the integration of data in content-driven applications.
+engine: gotpl
+home: https://github.com/zoosmand/helm/charts/mongodb
+icon: https://webimages.mongodb.com/_com_assets/cms/kpo5kblefbjq79065-Horizontal_Default.svg?auto=format%252Ccompress
+keywords:
+  - mongodb
+  - database
+  - nosql
+  - cluster
+  - replicaset
+  - replication
+maintainers:
+  - email: zoosman@mail.ru
+    name: Zoosman
+name: mongodb
+sources:
+  - https://hub.docker.com/_/mongo
+  - https://mongodb.org
+version: 0.0.1

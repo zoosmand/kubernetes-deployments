@@ -1,0 +1,30 @@
+## @section Global parameters
+## Global Docker image parameters
+## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+## Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
+##
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.storageClass Global StorageClass for Persistent Volume(s)
+## @param global.namespaceOverride Override the namespace for resource deployed by the chart, but can itself be overridden by the local namespaceOverride
+##
+global:
+  imageRegistry: "docker.io"
+  ## E.g.
+  ## imagePullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  imagePullSecrets: []
+  storageClass: ""
+  namespaceOverride: ""
+
+## @section Common parameters
+##
+
+## @param nameOverride String to partially override mongodb.fullname template (will maintain the release name)
+##
+nameOverride: ""
+## @param fullnameOverride String to fully override mongodb.fullname template
+##
+fullnameOverride: ""
