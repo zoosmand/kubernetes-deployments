@@ -21,13 +21,13 @@ services:
   kibana:
     container_name: els-kibana
     depends_on: 
-      - elasticsearch:7.13.2
+      - elasticsearch
     image: kibana:7.13.2
     volumes: 
       - ~/srv/els/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
     restart: always
     environment: 
-      LASTICSEARCH_HOSTS: http://els-elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://els-elasticsearch:9200
     ports: 
       - "5601:5601"
     networks: 
@@ -36,15 +36,17 @@ services:
   logstash:
     container_name: els-logstash
     depends_on: 
-      - elasticsearch:7.13.2
+      - elasticsearch
     image: logstash:7.13.2
     volumes: 
       - ~/srv/els/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ~/srv/els/logstash/config/conf.d/:/usr/share/logstash/config/conf.d/
+      - ~/srv/els/logstash/templates/:/usr/share/logstash/pipeline/templates
     restart: always
     ports: 
       - "5044:5044"
       - "5045:5045"
+      - "5046:5046"
     networks: 
       - default
     
@@ -55,4 +57,4 @@ networks:
     name: els-net
 
 volumes: 
-  dd_data:
+  db_data:

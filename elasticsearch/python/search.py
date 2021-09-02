@@ -12,7 +12,8 @@ from pandas.io.json import json_normalize
 
 
 # create a client instance of the library
-es = Elasticsearch(hosts="http://localhost:9200", http_auth=('elastic', 'Fl5uHpBgPQRejghWwbVG'))
+# es = Elasticsearch(hosts="http://localhost:9200", http_auth=('elastic', 'Fl5uHpBgPQRejghWwbVG'))
+es = Elasticsearch(hosts="http://192.168.120.214:9200")
 # es = Elasticsearch(hosts="http://localhost:9200", http_auth=('logstash_system', 'Em9huHceh64HKWKLmHMk'))
 # total num of Elasticsearch documents to get with API call
 # total_docs = 10
@@ -87,154 +88,154 @@ for key, val in response['hits'].items():
 
 # print(df)
 
-res = es.search(
-    index="logs-my_app-default", 
-    body={"query": {"match_all": {}}}, 
-    size=10, 
-    **{
-        '_source': False, 
-        'docvalue_fields': [
-            '@timestamp', 
-        ]
-    })
+# res = es.search(
+#     index="logs-my_app-default", 
+#     body={"query": {"match_all": {}}}, 
+#     size=10, 
+#     **{
+#         '_source': False, 
+#         'docvalue_fields': [
+#             '@timestamp', 
+#         ]
+#     })
 
-pprint(res)
-
-
-
-
-res = es.search(
-    index="logs-my_app-default", 
-    body={"query": {"range": { '@timestamp': {
-        'gte': '2099-05-05',
-        'lt': '2099-05-08',
-    }}}}, 
-    size=10, 
-    **{
-        '_source': False, 
-        'docvalue_fields': [
-            '@timestamp', 
-        ]
-    })
-
-pprint(res)
+# pprint(res)
 
 
 
 
+# res = es.search(
+#     index="logs-my_app-default", 
+#     body={"query": {"range": { '@timestamp': {
+#         'gte': '2099-05-05',
+#         'lt': '2099-05-08',
+#     }}}}, 
+#     size=10, 
+#     **{
+#         '_source': False, 
+#         'docvalue_fields': [
+#             '@timestamp', 
+#         ]
+#     })
 
-
-res = es.search(
-    index="logs-my_app-default", 
-    body={"query": {"range": { '@timestamp': {
-        'gte': 'now-1d/d',
-        'lt': 'now/d',
-    }}}}, 
-    size=10, 
-    **{
-        '_source': False, 
-        'docvalue_fields': [
-            '@timestamp', 
-        ]
-    })
-
-pprint(res)
-
-
-
-
-
-res = es.search(
-    index="logs-my_app-default", 
-    body={
-        "query": {"range": { '@timestamp': {
-            'gte': '2099-05-05',
-            'lt': '2099-05-08',
-        }}},
-        'runtime_mappings': {
-            'source.ip': {
-                'type': 'ip',
-                'script': """
-                String sourceip=grok('%{IPORHOST:sourceip} .*').extract(doc[ 'event.original' ].value)?.sourceip;
-                if (sourceip != null) emit(sourceip);
-                """
-            }
-        }
-    }, 
-    size=10, 
-    **{
-        '_source': False, 
-        'docvalue_fields': [
-            '@timestamp', 
-            'source.ip'
-        ]
-    })
-
-pprint(res)
+# pprint(res)
 
 
 
 
 
 
+# res = es.search(
+#     index="logs-my_app-default", 
+#     body={"query": {"range": { '@timestamp': {
+#         'gte': 'now-1d/d',
+#         'lt': 'now/d',
+#     }}}}, 
+#     size=10, 
+#     **{
+#         '_source': False, 
+#         'docvalue_fields': [
+#             '@timestamp', 
+#         ]
+#     })
 
-res = es.search(
-    index="logs-my_app-default", 
-    body={
-        "query": {"range": { '@timestamp': {
-            'gte': '2099-05-05',
-            'lt': '2099-05-08',
-        }}},
-        'runtime_mappings': {
-            'source.ip': {
-                'type': 'ip',
-                'script': """
-                String sourceip=grok('%{IPORHOST:sourceip} .*').extract(doc[ 'event.original' ].value)?.sourceip;
-                if (sourceip != null) emit(sourceip);
-                """
-            }
-        },
-        'sort': [{ '@timestamp': 'desc' }]
-    }, 
-    size=10, 
-    **{
-        '_source': False, 
-        'docvalue_fields': [
-            '@timestamp', 
-            'source.ip',
-        ],
-    })
-
-pprint(res)
+# pprint(res)
 
 
 
 
 
+# res = es.search(
+#     index="logs-my_app-default", 
+#     body={
+#         "query": {"range": { '@timestamp': {
+#             'gte': '2099-05-05',
+#             'lt': '2099-05-08',
+#         }}},
+#         'runtime_mappings': {
+#             'source.ip': {
+#                 'type': 'ip',
+#                 'script': """
+#                 String sourceip=grok('%{IPORHOST:sourceip} .*').extract(doc[ 'event.original' ].value)?.sourceip;
+#                 if (sourceip != null) emit(sourceip);
+#                 """
+#             }
+#         }
+#     }, 
+#     size=10, 
+#     **{
+#         '_source': False, 
+#         'docvalue_fields': [
+#             '@timestamp', 
+#             'source.ip'
+#         ]
+#     })
 
-res = es.search(
-    index="logs-my_app-default", 
-    body={
-        "query": {'match': {
-            '_id': 'SCPnQ3oBDgNQ0HL1kQyx',
-        }},
-        'runtime_mappings': {
-            'source.ip': {
-                'type': 'ip',
-                'script': """
-                String sourceip=grok('%{IPORHOST:sourceip} .*').extract(doc[ 'event.original' ].value)?.sourceip;
-                if (sourceip != null) emit(sourceip);
-                """
-            }
-        },
-    }, 
-    size=10, 
-    **{
-        '_source': False, 
-        'docvalue_fields': [
-            '@timestamp', 
-            'source.ip',
-        ],
-    })
+# pprint(res)
 
-pprint(res)
+
+
+
+
+
+
+# res = es.search(
+#     index="logs-my_app-default", 
+#     body={
+#         "query": {"range": { '@timestamp': {
+#             'gte': '2099-05-05',
+#             'lt': '2099-05-08',
+#         }}},
+#         'runtime_mappings': {
+#             'source.ip': {
+#                 'type': 'ip',
+#                 'script': """
+#                 String sourceip=grok('%{IPORHOST:sourceip} .*').extract(doc[ 'event.original' ].value)?.sourceip;
+#                 if (sourceip != null) emit(sourceip);
+#                 """
+#             }
+#         },
+#         'sort': [{ '@timestamp': 'desc' }]
+#     }, 
+#     size=10, 
+#     **{
+#         '_source': False, 
+#         'docvalue_fields': [
+#             '@timestamp', 
+#             'source.ip',
+#         ],
+#     })
+
+# pprint(res)
+
+
+
+
+
+
+# res = es.search(
+#     index="logs-my_app-default", 
+#     body={
+#         "query": {'match': {
+#             '_id': 'SCPnQ3oBDgNQ0HL1kQyx',
+#         }},
+#         'runtime_mappings': {
+#             'source.ip': {
+#                 'type': 'ip',
+#                 'script': """
+#                 String sourceip=grok('%{IPORHOST:sourceip} .*').extract(doc[ 'event.original' ].value)?.sourceip;
+#                 if (sourceip != null) emit(sourceip);
+#                 """
+#             }
+#         },
+#     }, 
+#     size=10, 
+#     **{
+#         '_source': False, 
+#         'docvalue_fields': [
+#             '@timestamp', 
+#             'source.ip',
+#         ],
+#     })
+
+# pprint(res)

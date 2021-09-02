@@ -5,8 +5,8 @@ metadata:
   name: mongodb-secret
 type: Opaque
 data:
-  mongo-root-username: dXNlcm5hbWU=
-  mongo-root-password: cGFzc3dvcmQ=
+  mongo-root-username: dXNlcm5hbWU= # echo -n 'username' | base64
+  mongo-root-password: cGFzc3dvcmQ= #echo -n 'password' | base64
 
 
 ---
@@ -64,7 +64,9 @@ metadata:
 spec:
   selector:
     app: mongodb
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 27017
       targetPort: 27017
+      nodePort: 30001

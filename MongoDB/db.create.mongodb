@@ -1,0 +1,49 @@
+const database = 'reviews';
+const collection = 'hellda';
+
+db.createRole({
+  role: "reviewsAdmin",
+  privileges: [
+    {
+      resource: { cluster: true },
+      actions: [
+        "addShard"
+      ]
+    },
+    {
+      resource: 
+      {
+        db: "reviews",
+        collection: ""
+      },
+      astions: [
+        "find",
+        "update",
+        "insert",
+        "remove"
+      ]
+    }
+  ],
+  roles: [
+    { role: "readWrite", db: "reviews" }
+  ]
+}, { 
+  w: "majority", 
+  wtimeout: 5000
+});
+
+
+db.createUser({
+  user: "reviewsAdmin",
+  pwd: "password",
+  roles: [{
+    role: "dbOwner",
+    db: "reviews"
+  }]
+});
+
+
+db.grantRolesToUser(
+  "reviewsAdmin", [
+  { role: "clusterMonitor", db: "admin" }
+  ]);
