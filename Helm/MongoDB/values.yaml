@@ -28,3 +28,8 @@ nameOverride: ""
 ## @param fullnameOverride String to fully override mongodb.fullname template
 ##
 fullnameOverride: ""
+
+auth:
+  secretKeyRef: mongodb-secret
+  rootNameEnv: MONGO_INITDB_ROOT_USERNAME
+  rootPwdEnv: MONGO_INITDB_ROOT_PASSWORD
