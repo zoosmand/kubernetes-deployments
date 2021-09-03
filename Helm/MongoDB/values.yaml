@@ -1,13 +1,4 @@
 ## @section Global parameters
-## Global Docker image parameters
-## Please, note that this will override the image parameters, including dependencies, configured to use the global value
-## Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
-##
-
-## @param global.imageRegistry Global Docker image registry
-## @param global.imagePullSecrets Global Docker registry secret names as an array
-## @param global.storageClass Global StorageClass for Persistent Volume(s)
-## @param global.namespaceOverride Override the namespace for resource deployed by the chart, but can itself be overridden by the local namespaceOverride
 ##
 global:
   imageRegistry: "docker.io"
@@ -19,6 +10,18 @@ global:
   storageClass: ""
   namespaceOverride: ""
 
+  useStatefulSet: false
+
+## @param extraDeploy Array of extra objects to deploy with the release
+##
+extraDeploy: []
+## @param commonLabels Add labels to all the deployed resources (sub-charts are not considered). Evaluated as a template
+##
+commonLabels: {}
+## @param commonAnnotations Common annotations to add to all Mongo resources (sub-charts are not considered). Evaluated as a template
+##
+commonAnnotations: {}
+
 ## @section Common parameters
 ##
 
@@ -29,7 +32,31 @@ nameOverride: ""
 ##
 fullnameOverride: ""
 
+release:
+  name: "TraditionalGreekTavern"
+  ver: 0.0.1
+
 auth:
-  secretKeyRef: mongodb-secret
-  rootNameEnv: MONGO_INITDB_ROOT_USERNAME
-  rootPwdEnv: MONGO_INITDB_ROOT_PASSWORD
+  enabled: true
+  secretKeyRef: "mongodb-secret"
+  rootUser: "admin"
+  rootPwd: "password"
+
+  username: ""
+  password: ""
+  database: ""
+
+map:
+  configMapKeyRef: "mongodb-configmap"
+
+
+image:
+  registry: "docker.io"
+  mongodbImage: "mongo"
+  mongoExpressImage: "mongo-express"
+
+containers:
+  mongodbPort: 27017
+  mongodbPublicPort: 30001
+  mongoExpressPort: 8081
+  mongoExpressPublicPort: 30000

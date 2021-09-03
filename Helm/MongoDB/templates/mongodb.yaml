@@ -1,42 +1,52 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: {{ if .Values.global.useStatefulSet }}StatefulSet{{- else }}Deployment{{- end }}
 metadata:
-  name: mongodb-depl
+  name: {{ include "mongodb.meta.name" . }}
   labels:
-    app: mongodb
-    v: 0.0.0
+    app: {{ include "mongodb.selector" . }}
+    app.kubernetes.io/component: mongodb
+    namespace: {{ include "mongodb.namespace" . }}
+    release.name: {{ .Values.release.name }} 
+    release.ver: {{ .Values.release.ver }} 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: {{ include "mongodb.selector" . }}
+  {{- if .Values.global.useStatefulSet }}
+  serviceName: {{ include "mongodb.service.name" . }}
+  updateStrategy:
+    rollingUpdate: null
+    type: OnDelete
+  {{- else }}
   strategy:
     rollingUpdate:
       maxSurge: 75%
       maxUnavailable: 25%
     type: RollingUpdate
+  {{- end }}
   template:
     metadata:
       labels:
-        app: mongodb
+        app: {{ include "mongodb.selector" . }}
     spec:
       containers:
-      - name: mongodb
-        image: {{ .Values.global.imageRegistry }}/mongo
+      - name: {{ include "mongodb.container" . }}
+        image: {{ include "mongodb.image" . }}
         ports:
-          - containerPort: 27017
+          - containerPort: {{ .Values.containers.mongodbPort }}
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
             secretKeyRef:
-              name: mongodb-secret
-              key: mongo-root-username
+              name: {{ template "mongodb.secretKeyRef" . }}
+              key: mongodb-root-username
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mongodb-secret
-              key: mongo-root-password
+              name: {{ template "mongodb.secretKeyRef" . }}
+              key: mongodb-root-password
         resources: 
           limits:
-            memory: 128Mi
-            cpu: 500m
+            memory: 512Mi
+            cpu: 1
